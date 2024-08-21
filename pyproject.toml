@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Anatoly <ad.uglev@mail.ru>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -19,6 +20,9 @@ certifi = "^2024.7.4"
 greenlet = "^3.0.3"
 fastapi-cache2 = "^0.2.2"
 redis = "^5.0.8"
+gunicorn = "^23.0.0"
+pytest = "^8.3.2"
+pytest-asyncio = "^0.23.8"
 
 
 [build-system]

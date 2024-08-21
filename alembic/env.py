@@ -11,8 +11,10 @@ from src.core.settings import config as cfg
 config = context.config
 fileConfig(config.config_file_name)
 config.set_main_option("sqlalchemy.url", cfg.postgres_settings.postgres_sync_url)
-from src.apps.etherium_transaction.models.transaction import Transaction
+from src.apps.etherium_transaction.models import Transaction
+
 target_metadata = Base.metadata
+
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.

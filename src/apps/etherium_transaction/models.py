@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Numeric, DateTime, Index, BigInteger
+from sqlalchemy import Column, Integer, String, Index, BigInteger
 from src.core.database.postgresql.models import AbstractBase
 
 
@@ -7,8 +7,8 @@ class Transaction(AbstractBase):
 
     id = Column(Integer, primary_key=True, index=True)
     hash = Column(String, index=True, nullable=True)
-    from_address = Column(String, index=True)
-    to_address = Column(String, index=True)
+    from_address = Column(String, index=True, nullable=True)
+    to_address = Column(String, index=True, nullable=True)
     value = Column(BigInteger)
     gas = Column(Integer)
     gas_price = Column(BigInteger)

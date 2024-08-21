@@ -3,6 +3,8 @@ from contextlib import asynccontextmanager
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from fastapi import HTTPException
+
+from src.core.logger import db_logger
 from src.core.settings import config
 
 engine = create_async_engine(config.postgres_settings.postgres_async_url)
@@ -15,6 +17,7 @@ async def get_session() -> AsyncSession:
     try:
         yield session
     except Exception as e:
+        db_logger.error(e)
         if isinstance(e, HTTPException):
             raise HTTPException(detail=e.detail, status_code=400)
     finally:
@@ -27,6 +30,7 @@ async def context_session() -> AsyncSession:
     try:
         yield session
     except Exception as e:
+        db_logger.error(e)
         if isinstance(e, HTTPException):
             raise HTTPException(detail=e.detail, status_code=400)
     finally:

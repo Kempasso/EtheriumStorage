@@ -1,0 +1,7 @@
+.idea/
+.DS_Store
+__pycache__/
+*.log
+env_example
+poetry.lock
+*.md

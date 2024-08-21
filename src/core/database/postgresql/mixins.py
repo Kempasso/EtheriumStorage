@@ -1,10 +1,11 @@
-from typing import Union, List
+from typing import Union
 
+from fastapi import HTTPException
 from sqlalchemy import select
-from dataclasses import field, dataclass
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.database.postgresql.session import Base
+from src.core.logger import db_logger
 
 
 class BaseMixin:
@@ -30,7 +31,14 @@ class RetrieveMixin(BaseMixin):
 class CreateMixin(BaseMixin):
 
     async def create(self, **kwargs):
-        prepared_instance = self.model(**kwargs)
-        self.session.add(prepared_instance)
-        await self.session.commit()
-        return prepared_instance
+        try:
+            prepared_instance = self.model(**kwargs)
+            self.session.add(prepared_instance)
+            await self.session.commit()
+            return prepared_instance
+        except Exception as e:
+            await self.session.rollback()
+            db_logger.error(f"{e}\n"
+                            f"Problem throughout create instance of {self.model.__tablename__}")
+            raise HTTPException(status_code=400,
+                                detail=f"Problem throughout create instance of {self.model.__tablename__}")

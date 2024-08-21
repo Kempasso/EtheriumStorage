@@ -22,8 +22,6 @@ services:
 
   redis:
     image: redis
-    ports:
-      - "${REDIS_PORT}:6379"
     volumes:
       - eth_redis_data:/data
     healthcheck:
@@ -53,7 +51,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_started
-    command: "uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"
+    command: "gunicorn src.main:app -w 3 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload"
 
   migrations:
     build:
@@ -61,15 +59,23 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
-#    environment:
-#      DATABASE_URL: "postgresql+asyncpg://$POSTGRES_USER:$POSTGRES_PASSWORD@postgresql:$POSTGRES_PORT/$POSTGRES_DB"
-#      REDIS_URL: "redis://redis"
     networks:
       - eth_network
     depends_on:
-      postgresql:
+      postgres:
         condition: service_healthy
     command: "alembic upgrade head"
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - eth_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: "pytest -v"
 
 networks:
   eth_network:

@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.apps.etherium_transaction.repository.transaction import TransactionRepo
+from src.apps.etherium_transaction.repositories import TransactionRepo
 
 
 class TransactionService:

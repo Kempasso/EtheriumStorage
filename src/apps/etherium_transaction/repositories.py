@@ -1,7 +1,7 @@
 from sqlalchemy import select, func, BigInteger
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.apps.etherium_transaction.models.transaction import Transaction
+from src.apps.etherium_transaction.models import Transaction
 from src.core.database.postgresql.mixins import RetrieveMixin, CreateMixin
 
 

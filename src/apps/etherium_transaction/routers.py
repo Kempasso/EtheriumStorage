@@ -4,10 +4,12 @@ from typing import Optional
 from fastapi import APIRouter, Depends, WebSocketDisconnect, WebSocket, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.apps.etherium_transaction.schemas.transaction import ReadTransaction, TxFilterParams
-from src.apps.etherium_transaction.services.transaction import TransactionService
+from src.apps.etherium_transaction.schemas import ReadTransaction, TxFilterParams
+from src.apps.etherium_transaction.services import TransactionService
 from src.core.database.postgresql.session import get_session
 from fastapi_cache.decorator import cache
+
+from src.core.logger import tx_logger
 
 transaction_router = APIRouter(prefix="/transaction", tags=["transaction"])
 
@@ -39,9 +41,9 @@ async def websocket_statistic(websocket: WebSocket, session: AsyncSession = Depe
             await websocket.send_json(stat)
             await asyncio.sleep(1)
     except WebSocketDisconnect as e:
-        print("log")
+        tx_logger.info("WebSocket disconnect")
     except Exception as e:
-        print(e)
-        print("log")
+        tx_logger.error(e)
     finally:
+        tx_logger.info("WebSocket connection close")
         await websocket.close()

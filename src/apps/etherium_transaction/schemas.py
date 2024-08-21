@@ -5,8 +5,8 @@ from pydantic import BaseModel, Field
 
 class PrepareTransaction(BaseModel):
     hash: Union[str, None]
-    from_address: str = Field(validation_alias="from")
-    to_address: str = Field(validation_alias="to")
+    from_address: Union[str, None] = Field(validation_alias="from")
+    to_address: Union[str, None] = Field(validation_alias="to")
     value: int
     gas: int
     gas_price: int = Field(validation_alias="gasPrice")
@@ -19,8 +19,8 @@ class PrepareTransaction(BaseModel):
 
 class ReadTransaction(BaseModel):
     hash: Union[str, None]
-    from_address: str
-    to_address: str
+    from_address: Union[str, None]
+    to_address: Union[str, None]
     value: int
     gas: int
     gas_price: int
