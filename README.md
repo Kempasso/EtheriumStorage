@@ -63,3 +63,5 @@ sudo docker compose up -d
 ```
 Write the password.
 
+## 4. After running:
+Once the containers start, the process of collecting information from the web3 provider and writing it to the database will begin and run in the background.
