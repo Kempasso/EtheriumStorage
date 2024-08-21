@@ -1,6 +1,6 @@
 # ETH Transaction Processor
 
-The ETH Transaction Service is a project developed using FastAPI that manages the processing of transactions on the Ethereum blockchain. This service offers features for retrieving, recording, and examining Ethereum transactions. It employs SQLAlchemy for database operations and Redis for caching solutions.
+The ETH Transaction microservice is a service developed using FastAPI that manages the processing of transactions on the Ethereum blockchain. This service offers features for retrieving, recording, and examining Ethereum transactions. It employs SQLAlchemy for database operations and Redis for caching solutions.
 
 ## Table of Contents
 
@@ -62,3 +62,4 @@ INFURA_WS_DOMAIN='wss://sepolia.infura.io/ws/v3/' # Test network
 sudo docker compose up -d
 ```
 Write the password.
+
